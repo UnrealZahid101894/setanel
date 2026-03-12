@@ -608,6 +608,7 @@
       </svg>
       <span class="topbar-brand">SETANEL</span>
       <span class="topbar-tag">ADMIN CONSOLE</span>
+      <span class="topbar-client" id="client-name" style="font-size:0.65rem;color:#444;letter-spacing:2px;margin-left:8px;"></span>
     </div>
     <div class="topbar-right">
       <div class="live-badge">
@@ -671,7 +672,7 @@
           </tr>
         </thead>
         <tbody id="sessions-tbody">
-          <tr class="empty-row"><td colspan="7">Loading sessions...</td></tr>
+          <tr class="empty-row"><td colspan="7" style="text-align:center;padding:2.5rem;color:#333;font-size:0.75rem;letter-spacing:1px;">Loading sessions...</td></tr>
         </tbody>
       </table>
     </div>
@@ -695,7 +696,7 @@
               </tr>
             </thead>
             <tbody id="suspicious-tbody">
-              <tr class="empty-row"><td colspan="3">No suspicious activity</td></tr>
+              <tr class="empty-row"><td colspan="3" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">🛡 &nbsp;No suspicious activity detected</td></tr>
             </tbody>
           </table>
         </div>
@@ -718,7 +719,7 @@
               </tr>
             </thead>
             <tbody id="banned-tbody">
-              <tr class="empty-row"><td colspan="4">No banned users</td></tr>
+              <tr class="empty-row"><td colspan="4" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">✓ &nbsp;No banned accounts</td></tr>
             </tbody>
           </table>
         </div>
@@ -925,7 +926,7 @@
 
     const tbody = document.getElementById('suspicious-tbody')
     if (!multi.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="3">No suspicious activity</td></tr>'
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="3" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">🛡 &nbsp;No suspicious activity detected</td></tr>'
       return
     }
 
@@ -946,7 +947,7 @@
     const tbody = document.getElementById('banned-tbody')
 
     if (!banned.length) {
-      tbody.innerHTML = '<tr class="empty-row"><td colspan="4">No banned users</td></tr>'
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="4" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">✓ &nbsp;No banned accounts</td></tr>'
       return
     }
 
@@ -1080,5 +1081,10 @@
   // Boot
   checkAdminSession()
 </script>
+
+  <!-- Footer -->
+  <div style="text-align:center;padding:2rem;font-size:0.62rem;color:#222;letter-spacing:2px;border-top:1px solid #141414;margin-top:2rem;">
+    POWERED BY SETANEL SECURITY SDK &nbsp;·&nbsp; v1.0.0
+  </div>
 </body>
 </html>
