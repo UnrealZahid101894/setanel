@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setanel — Anti-Piracy Video Security SDK for EdTech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nova+Square&family=JetBrains+Mono:wght@300;400;500;600&family=Tourney:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060606;
+      --s1:      #0e0e0e;
+      --s2:      #141414;
+      --border:  #1e1e1e;
+      --border2: #2a2a2a;
+      --text:    #e8e8e8;
+      --muted:   #888;
+      --muted2:  #444;
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* GRID */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .z1 { position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(6,6,6,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+
+    .nav-logo-text {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 1.1rem; color: #fff; letter-spacing: 2px;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+    }
+
+    .nav-links a {
+      font-size: 0.72rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .nav-cta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; font-weight: 600;
+      color: #000; background: #fff;
+      border: none; border-radius: 999px;
+      padding: 9px 22px; cursor: pointer;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+
+    .nav-cta:hover { background: #ddd; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem; color: var(--muted);
+      letter-spacing: 3px; text-transform: uppercase;
+      border: 1px solid var(--border2);
+      padding: 6px 16px; border-radius: 999px;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 2px;
+      line-height: 1.05;
+      max-width: 800px;
+    }
+
+    .hero-title span { color: var(--muted2); }
+
+    .hero-sub {
+      font-size: 0.88rem; color: var(--muted);
+      max-width: 520px; line-height: 1.9;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center;
+      gap: 1rem; flex-wrap: wrap; justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 600;
+      color: #000; background: #fff;
+      border: none; border-radius: 999px;
+      padding: 14px 32px; cursor: pointer;
+      letter-spacing: 1px; text-transform: uppercase;
+      transition: background 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+
+    .btn-primary:hover { background: #ddd; }
+
+    .btn-outline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--muted);
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 999px;
+      padding: 14px 32px; cursor: pointer;
+      letter-spacing: 1px;
+      transition: color 0.2s, border-color 0.2s;
+      text-decoration: none; display: inline-block;
+    }
+
+    .btn-outline:hover { color: #fff; border-color: #666; }
+
+    /* Code block in hero */
+    .hero-code {
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 4px 0 4px 0;
+      padding: 1.5rem 2rem;
+      text-align: left;
+      max-width: 520px; width: 100%;
+      position: relative;
+      margin-top: 0.5rem;
+    }
+
+    .hero-code::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: #fff;
+    }
+
+    .code-label {
+      font-size: 0.6rem; color: var(--muted2);
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .code-line { font-size: 0.8rem; line-height: 2; }
+    .code-key   { color: #7dd3fc; }
+    .code-val   { color: #86efac; }
+    .code-str   { color: #fca5a5; }
+    .code-fn    { color: #fff; }
+    .code-comment { color: var(--muted2); }
+
+    /* ── FEATURES ── */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 700; color: #fff;
+      letter-spacing: 1px; margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .section-sub {
+      font-size: 0.82rem; color: var(--muted);
+      max-width: 500px; line-height: 1.9;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      margin-top: 4rem;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .feature-card {
+      background: var(--s1);
+      padding: 2rem;
+      transition: background 0.2s;
+    }
+
+    .feature-card:hover { background: var(--s2); }
+
+    .feature-icon {
+      font-size: 1.8rem; margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 0.9rem; color: #fff;
+      letter-spacing: 1px; margin-bottom: 0.6rem;
+    }
+
+    .feature-desc {
+      font-size: 0.75rem; color: var(--muted);
+      line-height: 1.8; letter-spacing: 0.3px;
+    }
+
+    .feature-tag {
+      display: inline-block; margin-top: 0.8rem;
+      font-size: 0.62rem; color: var(--muted2);
+      letter-spacing: 1.5px; text-transform: uppercase;
+      border: 1px solid var(--border2);
+      padding: 3px 8px; border-radius: 2px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .step {
+      position: relative;
+      padding: 2rem;
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 2px 10px 2px 10px;
+    }
+
+    .step-num {
+      font-family: 'Tourney', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      color: var(--border2);
+      letter-spacing: 2px; line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step-title {
+      font-size: 0.85rem; font-weight: 600;
+      color: #fff; margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .step-desc {
+      font-size: 0.75rem; color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── CODE BLOCK ── */
+    .code-section {
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 4rem;
+    }
+
+    .code-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--s2);
+    }
+
+    .code-tab {
+      padding: 12px 20px;
+      font-size: 0.7rem; color: var(--muted);
+      letter-spacing: 1px; cursor: pointer;
+      border-right: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .code-tab.active { color: #fff; background: var(--s1); }
+
+    .code-body {
+      padding: 2rem;
+      overflow-x: auto;
+    }
+
+    .code-body pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: var(--text);
+      white-space: pre;
+    }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 4rem;
+    }
+
+    .price-card {
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 2px 10px 2px 10px;
+      padding: 2rem;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+
+    .price-card:hover { border-color: #444; }
+
+    .price-card.featured {
+      border-color: #fff;
+    }
+
+    .price-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute; top: -1px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.58rem; letter-spacing: 2px;
+      background: #fff; color: #000;
+      padding: 3px 12px; border-radius: 0 0 4px 4px;
+    }
+
+    .price-plan {
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 2.5px; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .price-amount {
+      font-family: 'Tourney', sans-serif;
+      font-size: 2.8rem; font-weight: 700;
+      color: #fff; letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .price-period {
+      font-size: 0.7rem; color: var(--muted);
+      margin-top: 4px; margin-bottom: 1.5rem;
+    }
+
+    .price-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .price-features li {
+      font-size: 0.75rem; color: var(--muted);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.3px;
+    }
+
+    .price-features li:last-child { border-bottom: none; }
+
+    .price-features li::before {
+      content: '→ ';
+      color: var(--muted2);
+    }
+
+    .price-btn {
+      width: 100%;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; border-radius: 999px;
+      transition: background 0.2s;
+    }
+
+    .price-btn-white {
+      background: #fff; color: #000; border: none;
+    }
+    .price-btn-white:hover { background: #ddd; }
+
+    .price-btn-outline {
+      background: none; color: var(--muted);
+      border: 1px solid var(--border2);
+    }
+    .price-btn-outline:hover { color: #fff; border-color: #666; }
+
+    /* ── CONTACT ── */
+    .contact-wrap {
+      max-width: 600px; margin: 4rem auto 0;
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 10px 2px 10px 2px;
+      padding: 3rem;
+      position: relative;
+    }
+
+    .contact-wrap::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: #fff;
+    }
+
+    .contact-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: #fff; letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-sub {
+      font-size: 0.75rem; color: var(--muted);
+      line-height: 1.7; margin-bottom: 2rem;
+    }
+
+    .form-field { margin-bottom: 1.2rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.65rem; color: var(--muted);
+      letter-spacing: 2px; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border2);
+      border-radius: 0;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--muted2); }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { border-color: #555; }
+
+    .form-select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .form-textarea { resize: vertical; min-height: 120px; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: #fff; border: none;
+      border-radius: 999px;
+      color: #000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .submit-btn:hover { background: #ddd; }
+    .submit-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem; color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .form-success .big { font-size: 2rem; margin-bottom: 0.5rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    .footer-brand {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 0.9rem; color: var(--muted2);
+      letter-spacing: 2px;
+    }
+
+    .footer-copy {
+      font-size: 0.68rem; color: var(--muted2);
+      letter-spacing: 0.5px;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-up { animation: fadeUp 0.6s ease both; }
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="z1">
+  <a href="#" class="nav-brand">
+    <svg width="22" height="25" viewBox="0 0 36 40" fill="none">
+      <path d="M18 2 L34 8 L34 22 Q34 34 18 39 Q2 34 2 22 L2 8 Z" fill="#ffffff"/>
+      <line x1="18" y1="2" x2="18" y2="39" stroke="#000" stroke-width="1.8"/>
+      <line x1="2" y1="20" x2="34" y2="20" stroke="#000" stroke-width="1.8"/>
+      <path d="M18 20 C13 23 7 27 4 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M18 20 C23 23 29 27 32 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    </svg>
+    <span class="nav-logo-text">SETANEL</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Get Access</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero z1">
+  <div class="hero-eyebrow fade-up">Anti-Piracy SDK for EdTech Platforms</div>
+
+  <h1 class="hero-title fade-up delay-1">
+    Protect Your<br/>
+    <span>Video Content.</span><br/>
+    In One Line.
+  </h1>
+
+  <p class="hero-sub fade-up delay-2">
+    Setanel SDK gives your platform a kill switch, forensic watermarking,
+    and session management — without changing your login system or design.
+  </p>
+
+  <div class="hero-actions fade-up delay-3">
+    <a href="#contact" class="btn-primary">Request Integration</a>
+    <a href="#how-it-works" class="btn-outline">See How It Works</a>
+  </div>
+
+  <div class="hero-code fade-up delay-4">
+    <div class="code-label">// Integration — 3 lines of code</div>
+    <div class="code-line">
+      <span class="code-fn">Setanel</span><span>.</span><span class="code-key">init</span><span>({</span>
+    </div>
+    <div class="code-line" style="padding-left:1.5rem">
+      <span class="code-key">userId</span><span>:  </span><span class="code-str">currentStudent.id</span><span>,</span>
+    </div>
+    <div class="code-line" style="padding-left:1.5rem">
+      <span class="code-key">videoUrl</span><span>: </span><span class="code-str">lecture.m3u8</span><span>,</span>
+    </div>
+    <div class="code-line" style="padding-left:1.5rem">
+      <span class="code-key">container</span><span>: </span><span class="code-str">'#player'</span>
+    </div>
+    <div class="code-line"><span>})</span></div>
+    <div class="code-line" style="margin-top:0.5rem">
+      <span class="code-comment">// ✓ Kill switch active</span>
+    </div>
+    <div class="code-line">
+      <span class="code-comment">// ✓ Forensic watermark running</span>
+    </div>
+    <div class="code-line">
+      <span class="code-comment">// ✓ Session tracked in admin dashboard</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section class="section z1" id="features">
+  <div class="section-eyebrow">// What You Get</div>
+  <h2 class="section-title">Every Attack Vector.<br/>Covered.</h2>
+  <p class="section-sub">
+    Setanel protects against the 4 ways students steal and share course content —
+    without slowing down your platform.
+  </p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Kill Switch</div>
+      <div class="feature-desc">
+        Detects the same account on 2+ devices simultaneously.
+        The second session is revoked within 30 seconds. No manual action required.
+      </div>
+      <span class="feature-tag">Account Sharing</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🔍</div>
+      <div class="feature-title">Forensic Watermark</div>
+      <div class="feature-desc">
+        Every session gets a unique 6-digit ID that floats over the video.
+        If a leak appears online — you identify the exact account in seconds.
+      </div>
+      <span class="feature-tag">Screen Recording</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡</div>
+      <div class="feature-title">Screenshot Block</div>
+      <div class="feature-desc">
+        Blocks common screenshot keyboard shortcuts. Video blurs automatically
+        when the student switches tabs or attempts screen capture.
+      </div>
+      <span class="feature-tag">Content Capture</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📡</div>
+      <div class="feature-title">HLS Streaming</div>
+      <div class="feature-desc">
+        Video is delivered in encrypted chunks. No single downloadable file exists.
+        Works with Mux, Cloudflare Stream, AWS MediaConvert.
+      </div>
+      <span class="feature-tag">Direct Download</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⛔</div>
+      <div class="feature-title">Instant Ban</div>
+      <div class="feature-desc">
+        One click in the admin dashboard bans an account permanently.
+        Their active session is terminated immediately — no 30s delay.
+      </div>
+      <span class="feature-tag">Repeat Offenders</span>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <div class="feature-title">Admin Dashboard</div>
+      <div class="feature-desc">
+        Real-time view of every active session, suspicious multi-device users,
+        forensic IDs, and ban management — all in one console.
+      </div>
+      <span class="feature-tag">Monitoring</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="section z1" id="how-it-works" style="background:var(--s1); max-width:100%; padding: 6rem 2rem;">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-eyebrow">// Integration</div>
+    <h2 class="section-title">Works With Your<br/>Existing Platform.</h2>
+    <p class="section-sub">
+      Your login, your design, your students. Setanel runs as an invisible security
+      layer underneath — no redesign required.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Install the SDK</div>
+        <div class="step-desc">
+          Add one script tag to your page or install via npm.
+          No server setup. No DevOps.
+          <br/><br/>
+          <code style="color:#888;font-size:0.75rem;">npm install setanel-sdk</code>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Pass Your Student Data</div>
+        <div class="step-desc">
+          Call Setanel.init() with the logged-in student's ID and your video URL.
+          Setanel never touches your login system.
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Monitor From Dashboard</div>
+        <div class="step-desc">
+          Log into your private Setanel Admin Console. See every active session,
+          detect sharing attempts, ban offenders in one click.
+        </div>
+      </div>
+    </div>
+
+    <div class="code-section">
+      <div class="code-tabs">
+        <div class="code-tab active">HTML / CDN</div>
+        <div class="code-tab" style="color:#444">npm / ES Module</div>
+      </div>
+      <div class="code-body">
+        <pre><span style="color:#555">// Step 1 — Add to your HTML</span>
+&lt;<span style="color:#7dd3fc">script</span> src=<span style="color:#86efac">"https://cdn.jsdelivr.net/npm/setanel-sdk/index.js"</span>&gt;&lt;/<span style="color:#7dd3fc">script</span>&gt;
+
+<span style="color:#555">// Step 2 — Initialize after your student logs in</span>
+<span style="color:#7dd3fc">Setanel</span>.<span style="color:#fca5a5">init</span>({
+  supabaseUrl:  <span style="color:#86efac">'https://your-project.supabase.co'</span>,
+  supabaseKey:  <span style="color:#86efac">'your-anon-key'</span>,
+  userId:       <span style="color:#86efac">currentStudent.id</span>,
+  userEmail:    <span style="color:#86efac">currentStudent.email</span>,
+  videoUrl:     <span style="color:#86efac">'https://your-cdn.com/lecture.m3u8'</span>,
+  container:    <span style="color:#86efac">'#video-player'</span>,
+  deviceLimit:  <span style="color:#fca5a5">1</span>,
+  onRevoke: (<span style="color:#7dd3fc">reason</span>) =&gt; {
+    <span style="color:#555">// Redirect to your own login page</span>
+    window.location.href = <span style="color:#86efac">'/login'</span>
+  }
+})
+
+<span style="color:#555">// Step 3 — Clean up on logout</span>
+<span style="color:#7dd3fc">Setanel</span>.<span style="color:#fca5a5">destroy</span>()</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section class="section z1" id="pricing">
+  <div class="section-eyebrow">// Pricing</div>
+  <h2 class="section-title">Simple, Honest<br/>Pricing.</h2>
+  <p class="section-sub">
+    Monthly plans based on active students. No setup fees. Cancel anytime.
+  </p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-plan">Starter</div>
+      <div class="price-amount">$19</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Up to 200 active students</li>
+        <li>Kill switch (1 device)</li>
+        <li>Forensic watermark</li>
+        <li>Admin dashboard</li>
+        <li>Email support</li>
+      </ul>
+      <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView()">
+        Get Started
+      </button>
+    </div>
+
+    <div class="price-card featured">
+      <div class="price-plan">Growth</div>
+      <div class="price-amount">$49</div>
+      <div class="price-period">per month</div>
+      <ul class="price-features">
+        <li>Up to 1,000 active students</li>
+        <li>Kill switch (configurable)</li>
+        <li>Forensic watermark</li>
+        <li>Admin dashboard</li>
+        <li>Ban management</li>
+        <li>Priority support</li>
+      </ul>
+      <button class="price-btn price-btn-white" onclick="document.getElementById('contact').scrollIntoView()">
+        Get Started
+      </button>
+    </div>
+
+    <div class="price-card">
+      <div class="price-plan">Enterprise</div>
+      <div class="price-amount">Custom</div>
+      <div class="price-period">contact us</div>
+      <ul class="price-features">
+        <li>Unlimited students</li>
+        <li>Custom device limits</li>
+        <li>Dedicated dashboard</li>
+        <li>SLA guarantee</li>
+        <li>Integration support</li>
+        <li>White-label option</li>
+      </ul>
+      <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView()">
+        Contact Us
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="section z1" id="contact">
+  <div class="section-eyebrow">// Get Access</div>
+  <h2 class="section-title">Ready to Protect<br/>Your Platform?</h2>
+  <p class="section-sub">
+    Send us your platform details. We'll get back to you within 24 hours
+    with your API keys and integration guide.
+  </p>
+
+  <div class="contact-wrap">
+    <div class="contact-title">Request Integration</div>
+    <div class="contact-sub">
+      Fill in your details and we'll set up your Setanel account.
+      Integration takes less than 30 minutes.
+    </div>
+
+    <div id="contact-form">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" id="f-name" type="text" placeholder="John Ahmed"/>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Platform Name</label>
+          <input class="form-input" id="f-platform" type="text" placeholder="Udvash Online"/>
+        </div>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Work Email</label>
+        <input class="form-input" id="f-email" type="email" placeholder="dev@platform.com"/>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Number of Active Students</label>
+        <select class="form-select form-input" id="f-students">
+          <option value="">Select range</option>
+          <option>Under 500</option>
+          <option>500 – 2,000</option>
+          <option>2,000 – 10,000</option>
+          <option>10,000+</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label">Describe Your Piracy Problem</label>
+        <textarea class="form-textarea" id="f-msg"
+          placeholder="e.g. Students are sharing logins, screen recording lectures and sharing on Telegram..."></textarea>
+      </div>
+      <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+        Send Request →
+      </button>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <div class="big">🛡</div>
+      <strong style="color:#fff;font-size:0.9rem;">Request Received</strong><br/>
+      We'll contact you within 24 hours with your API keys and setup guide.
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="z1">
+  <div class="footer-brand">SETANEL</div>
+  <div class="footer-copy">© 2025 Setanel Security · Anti-Piracy SDK for EdTech</div>
+</footer>
+
+
+<script>
+  async function submitForm() {
+    const name     = document.getElementById('f-name').value.trim()
+    const platform = document.getElementById('f-platform').value.trim()
+    const email    = document.getElementById('f-email').value.trim()
+    const students = document.getElementById('f-students').value
+    const msg      = document.getElementById('f-msg').value.trim()
+
+    if (!name || !platform || !email) {
+      alert('Please fill in your name, platform name, and email.')
+      return
+    }
+
+    const btn = document.getElementById('submit-btn')
+    btn.disabled = true
+    btn.textContent = 'Sending...'
+
+    try {
+      // Formspree — replace YOUR_FORM_ID with your actual ID from formspree.io
+      const res = await fetch('https://formspree.io/f/mjgawdwb', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ name, platform, email, students, message: msg })
+      })
+
+      if (res.ok) {
+        document.getElementById('contact-form').style.display = 'none'
+        document.getElementById('form-success').style.display = 'block'
+      } else {
+        btn.disabled = false
+        btn.textContent = 'Send Request →'
+        alert('Something went wrong. Please email us directly.')
+      }
+    } catch(e) {
+      btn.disabled = false
+      btn.textContent = 'Send Request →'
+      alert('Network error. Please try again.')
+    }
+  }
+
+  // Smooth tab switching in code block
+  document.querySelectorAll('.code-tab').forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'))
+      tab.classList.add('active')
+    })
+  })
+</script>
+
+</body>
+</html>
