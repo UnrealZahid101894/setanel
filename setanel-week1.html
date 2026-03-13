@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setanel — Secure Learning</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest">
+
+  // ════════════════════════════════
+  // HANDLE OAUTH REDIRECT ON LOAD
+  // ════════════════════════════════
+  async function checkExistingSession() {
+    const { data: { session } } = await db.auth.getSession()
+    if (session && session.user) {
+      currentUser = session.user
+      await startSession()
+      showVideoScreen()
+    }
+  }
+  checkExistingSession()
+
+  // Expose functions to global scope for onclick handlers
+  window.login        = login
+  window.signup       = signup
+  window.logout       = logout
+  window.toggleSignup = toggleSignup
+  window.goToLogin    = goToLogin
+  window.loginWithGoogle = loginWithGoogle
+
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+
+  // ════════════════════════════════
+  // HANDLE OAUTH REDIRECT ON LOAD
+  // ════════════════════════════════
+  async function checkExistingSession() {
+    const { data: { session } } = await db.auth.getSession()
+    if (session && session.user) {
+      currentUser = session.user
+      await startSession()
+      showVideoScreen()
+    }
+  }
+  checkExistingSession()
+
+  // Expose functions to global scope for onclick handlers
+  window.login        = login
+  window.signup       = signup
+  window.logout       = logout
+  window.toggleSignup = toggleSignup
+  window.goToLogin    = goToLogin
+  window.loginWithGoogle = loginWithGoogle
+
+</script>
+  <link href="https://fonts.googleapis.com/css2?family=Tourney:wght@400;600;700;800&family=Nova+Square&family=JetBrains+Mono:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #080808;
+      --surface: #111111;
+      --surface2: #181818;
+      --border: #2a2a2a;
+      --border2: #333333;
+      --accent: #ffffff;
+      --accent-dim: #aaaaaa;
+      --text: #f0f0f0;
+      --muted: #666666;
+      --muted2: #888888;
+      --danger: #ff3333;
+      --on: #cccccc;
+    }
+
+    body {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── FINE GRID BACKGROUND ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── SCREENS ─── */
+    .screen { position: relative; z-index: 1; }
+
+    /* ─── LOGIN SCREEN ─── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 12px 2px 12px 2px;
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.6s ease both;
+      box-shadow: 0 0 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: #ffffff;
+    }
+
+    .login-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 40px; height: 40px;
+      border-bottom: 1px solid var(--border2);
+      border-right: 1px solid var(--border2);
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+    }
+
+    .brand-icon {
+      width: 32px; height: 36px;
+      background: transparent;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .brand-name {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: #ffffff;
+    }
+
+    .brand-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted2);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .login-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #ffffff;
+      letter-spacing: 1px;
+      line-height: 1.15;
+    }
+
+    .login-subtitle {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.65rem;
+      color: var(--muted2);
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .field {
+      margin-bottom: 1.3rem;
+    }
+
+    label {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--muted2);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid var(--border2);
+      border-radius: 0px;
+      padding: 13px 16px;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    input::placeholder {
+      color: #3a3a3a;
+      font-size: 0.85rem;
+    }
+
+    input:focus {
+      border-color: #888888;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #ffffff;
+      border: none;
+      border-radius: 999px;
+      color: #000000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .login-btn:hover { background: #dddddd; }
+    .login-btn:active { transform: scale(0.99); }
+    .login-btn:disabled { background: #282828; color: #555555; cursor: not-allowed; }
+
+    .error-msg {
+      display: none;
+      background: rgba(255,51,51,0.07);
+      border: 1px solid rgba(255,51,51,0.2);
+      border-radius: 4px;
+      padding: 11px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: #ff7777;
+      margin-top: 1rem;
+      line-height: 1.6;
+    }
+
+    .signup-row {
+      text-align: center;
+      margin-top: 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+      color: var(--muted2);
+      letter-spacing: 0.2px;
+    }
+
+    .signup-row a {
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 600;
+      border-bottom: 1px solid #444;
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+    }
+
+    .signup-row a:hover { border-color: #ffffff; }
+
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 1.2rem 0;
+    }
+
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border2);
+    }
+
+    .divider span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    .google-btn {
+      width: 100%;
+      padding: 13px;
+      background: #ffffff;
+      border: none;
+      border-radius: 999px;
+      color: #000000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: background 0.2s, transform 0.1s;
+      margin-bottom: 0.2rem;
+    }
+
+    .google-btn:hover { background: #eeeeee; }
+    .google-btn:active { transform: scale(0.99); }
+
+    /* ─── SIGNUP FORM ─── */
+    #signup-form { display: none; }
+
+    /* ─── VIDEO SCREEN ─── */
+    #video-screen {
+      display: none;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Top Nav */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border2);
+      background: #0d0d0d;
+    }
+
+    .nav-brand { font-family: 'Nova Square', sans-serif; font-size: 1.1rem; font-weight: 400; letter-spacing: 2px; letter-spacing: -0.3px; color: #fff; }
+    .nav-brand span { color: var(--muted2); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .session-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--muted2);
+      letter-spacing: 0.5px;
+    }
+
+    .session-badge .dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: #ffffff;
+      border-radius: 50%;
+      margin-right: 7px;
+      animation: pulse 2s infinite;
+    }
+
+    .logout-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--muted2);
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 6px 2px 6px 2px;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .logout-btn:hover { color: #ff6666; border-color: #ff3333; }
+
+    /* Main content */
+    .video-main {
+      flex: 1;
+      display: flex;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .video-col { flex: 1; }
+
+    /* Player wrapper */
+    .player-wrap {
+      position: relative;
+      background: #000;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 16/9;
+    }
+
+    #player {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Watermark */
+    #watermark {
+      position: absolute;
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      color: rgba(255,255,255,0.15);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: 4px;
+      text-shadow: 0 0 6px rgba(255,255,255,0.08);
+      transition: all 4s ease-in-out;
+      z-index: 10;
+    }
+
+    /* No-screenshot overlay (shown when screenshot blocked) */
+    .screenshot-guard {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    /* Video info */
+    .video-info {
+      margin-top: 1.5rem;
+    }
+
+    .video-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .video-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.73rem;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin-bottom: 1rem;
+    }
+
+    .security-panel {
+      background: #111111;
+      border: 1px solid var(--border2);
+      border-radius: 10px 2px 10px 2px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .security-panel h4 {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      letter-spacing: 0.2px;
+    }
+
+    .shield-icon { color: #ffffff; font-size: 1rem; }
+
+    .security-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #1e1e1e;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.76rem;
+    }
+
+    .security-item:last-child { border-bottom: none; }
+    .security-item .label { color: var(--muted2); }
+
+    .status-on {
+      color: #ffffff;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 2px 10px;
+      border-radius: 2px;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+    }
+
+    .forensic-panel {
+      background: #111111;
+      border: 1px solid var(--border2);
+      border-radius: 2px 10px 2px 10px;
+      padding: 1.2rem;
+    }
+
+    .forensic-id-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      color: var(--muted2);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .forensic-id-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: 6px;
+    }
+
+    .forensic-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted2);
+      margin-top: 10px;
+      line-height: 1.8;
+    }
+
+    /* ─── REVOKE SCREEN ─── */
+    #revoke-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.98);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .revoke-icon { font-size: 3rem; filter: grayscale(1); }
+
+    .revoke-title {
+      font-family: 'Bricolage Grotesque', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .revoke-sub {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted2);
+      max-width: 360px;
+      line-height: 1.9;
+    }
+
+    .revoke-btn {
+      margin-top: 1rem;
+      padding: 13px 36px;
+      background: none;
+      border: 1px solid #ffffff;
+      border-radius: 999px;
+      color: #ffffff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .revoke-btn:hover { background: rgba(255,255,255,0.07); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 13px; height: 13px;
+      border: 2px solid rgba(0,0,0,0.15);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════
+     LOGIN SCREEN
+════════════════════════════════ -->
+<div id="login-screen" class="screen">
+  <div class="login-card">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg width="36" height="40" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Shield body: flat top, angled shoulders, rounded bottom -->
+          <path d="M18 2 L34 8 L34 22 Q34 34 18 39 Q2 34 2 22 L2 8 Z" fill="#ffffff"/>
+          <!-- Center vertical split line -->
+          <line x1="18" y1="2" x2="18" y2="39" stroke="#000" stroke-width="1.8"/>
+          <!-- Horizontal divider (visor top) -->
+          <line x1="2" y1="20" x2="34" y2="20" stroke="#000" stroke-width="1.8"/>
+          <!-- Left visor wing -->
+          <path d="M18 20 C13 23 7 27 4 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          <!-- Right visor wing -->
+          <path d="M18 20 C23 23 29 27 32 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Setanel</div>
+        <div class="brand-tag">Secure Learning Platform</div>
+      </div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="login-form">
+      <div class="login-title">Welcome back</div>
+      <div class="login-subtitle">// Enter your credentials to access your course</div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <input id="login-email" type="email" placeholder="student@university.edu" autocomplete="email"/>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password"/>
+      </div>
+
+      <button class="login-btn" id="login-btn" onclick="login()">Login</button>
+
+      <div class="error-msg" id="login-error"></div>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+          <path d="M3.964 10.706c-.18-.54-.282-1.117-.282-1.706s.102-1.166.282-1.706V4.962H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="signup-row">
+        No account? <a onclick="toggleSignup(true)">Create one free →</a>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signup-form">
+      <div class="login-title">Create Account</div>
+      <div class="login-subtitle">// Join the platform — secured by Setanel</div>
+
+      <div class="field">
+        <label>Email Address</label>
+        <input id="signup-email" type="email" placeholder="student@university.edu"/>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input id="signup-password" type="password" placeholder="Min. 6 characters"/>
+      </div>
+
+      <button class="login-btn" id="signup-btn" onclick="signup()">Create Account</button>
+
+      <div class="error-msg" id="signup-error"></div>
+
+      <div class="divider"><span>or</span></div>
+      <button class="google-btn" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+          <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+          <path d="M3.964 10.706c-.18-.54-.282-1.117-.282-1.706s.102-1.166.282-1.706V4.962H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+          <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+      <div class="signup-row">
+        Already have an account? <a onclick="toggleSignup(false)">Login →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     VIDEO SCREEN
+════════════════════════════════ -->
+<div id="video-screen" class="screen" style="display:none; flex-direction:column;">
+
+  <nav class="nav">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <svg width="20" height="23" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 2 L34 8 L34 22 Q34 34 18 39 Q2 34 2 22 L2 8 Z" fill="#ffffff"/>
+        <line x1="18" y1="2" x2="18" y2="39" stroke="#000" stroke-width="1.8"/>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="#000" stroke-width="1.8"/>
+        <path d="M18 20 C13 23 7 27 4 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M18 20 C23 23 29 27 32 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand">SETANEL</div>
+    </div>
+    <div class="nav-right">
+      <div class="session-badge">
+        <span class="dot"></span>
+        <span id="session-info">Session Active</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="video-main">
+
+    <!-- Video Player -->
+    <div class="video-col">
+      <div class="player-wrap">
+        <video id="player" controls playsinline></video>
+        <div id="watermark">000000</div>
+      </div>
+
+      <div class="video-info">
+        <div class="video-title">Introduction to Secure Learning</div>
+        <div class="video-meta">// DEMO STREAM · PROTECTED BY SETANEL SDK · WEEK 1</div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-title">// Security Status</div>
+
+      <div class="security-panel">
+        <h4><span class="shield-icon">🛡</span> Active Protections</h4>
+        <div class="security-item">
+          <span class="label">Screenshot Block</span>
+          <span class="status-on">ON</span>
+        </div>
+        <div class="security-item">
+          <span class="label">Session Kill Switch</span>
+          <span class="status-on">ON</span>
+        </div>
+        <div class="security-item">
+          <span class="label">Forensic Watermark</span>
+          <span class="status-on">ON</span>
+        </div>
+        <div class="security-item">
+          <span class="label">HLS Stream (no download)</span>
+          <span class="status-on">ON</span>
+        </div>
+      </div>
+
+      <div class="forensic-panel">
+        <div class="forensic-id-label">// Your Forensic ID</div>
+        <div class="forensic-id-value" id="forensic-display">——</div>
+        <div class="forensic-note">
+          This ID is watermarked on your screen.<br/>
+          Any leaked recording is traceable to you.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     KILL SWITCH SCREEN
+════════════════════════════════ -->
+<div id="revoke-screen" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:9999; display:none; align-items:center; justify-content:center; flex-direction:column; gap:1rem; text-align:center; padding:2rem;">
+  <div class="revoke-icon">🚫</div>
+  <div class="revoke-title">Session Revoked</div>
+  <div class="revoke-sub">
+    Your account was detected on another device.<br/>
+    Only one active session is allowed at a time.<br/><br/>
+    If this wasn't you, change your password immediately.
+  </div>
+  <button class="revoke-btn" onclick="goToLogin()">Return to Login</button>
+</div>
+
+
+<script>
+  // ════════════════════════════════
+  // CONFIG — Paste your keys here
+  // ════════════════════════════════
+  const SUPABASE_URL = 'https://cqvwkvrlamsdmdzcdmkn.supabase.co/'
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxdndrdnJsYW1zZG1kemNkbWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDk1NjIsImV4cCI6MjA4ODgyNTU2Mn0.OtPo1iQWkFDWeXrqXYFu9XD7h9B3RZFqIP1tM17CgkI'
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+  // Free Mux demo stream (works without signup)
+  const STREAM_URL = 'https://stream.mux.com/DS00Spx1CV902MCtPj5WknGlR102V5HFkDe.m3u8'
+
+  // ── State ──
+  let currentUser = null
+  let forensicId  = null
+  let deviceId    = generateDeviceId()
+  let heartbeatTimer = null
+  let watermarkTimer = null
+
+
+  // ════════════════════════════════
+  // DEVICE ID  (persists per browser)
+  // ════════════════════════════════
+  function generateDeviceId() {
+    let id = localStorage.getItem('setanel_device_id')
+    if (!id) {
+      id = 'web_' + Math.random().toString(36).substr(2, 12)
+      localStorage.setItem('setanel_device_id', id)
+    }
+    return id
+  }
+
+
+
+  // ════════════════════════════════
+  // GOOGLE OAUTH LOGIN
+  // ════════════════════════════════
+  async function loginWithGoogle() {
+    const { error } = await db.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.location.href
+      }
+    })
+    if (error) showError('login-error', error.message)
+  }
+
+  // ════════════════════════════════
+  // AUTH — Login
+  // ════════════════════════════════
+  async function login() {
+    const email    = document.getElementById('login-email').value.trim()
+    const password = document.getElementById('login-password').value
+    const btn      = document.getElementById('login-btn')
+    const err      = document.getElementById('login-error')
+
+    if (!email || !password) { showError('login-error', 'Please fill in all fields.'); return }
+
+    btn.disabled = true
+    btn.innerHTML = '<span class="spinner"></span>Authenticating...'
+    err.style.display = 'none'
+
+    const { data, error } = await db.auth.signInWithPassword({ email, password })
+
+    if (error) {
+      showError('login-error', error.message)
+      btn.disabled = false
+      btn.innerHTML = 'Login'
+      return
+    }
+
+    currentUser = data.user
+    await startSession()
+    showVideoScreen()
+  }
+
+
+  // ════════════════════════════════
+  // AUTH — Signup
+  // ════════════════════════════════
+  async function signup() {
+    const email    = document.getElementById('signup-email').value.trim()
+    const password = document.getElementById('signup-password').value
+    const btn      = document.getElementById('signup-btn')
+
+    if (!email || !password) { showError('signup-error', 'Please fill in all fields.'); return }
+    if (password.length < 6)  { showError('signup-error', 'Password must be at least 6 characters.'); return }
+
+    btn.disabled = true
+    btn.innerHTML = '<span class="spinner"></span>Creating Account...'
+
+    const { data, error } = await db.auth.signUp({ email, password })
+
+    if (error) {
+      showError('signup-error', error.message)
+      btn.disabled = false
+      btn.innerHTML = 'Create Account'
+      return
+    }
+
+    // Auto-login after signup
+    currentUser = data.user
+    if (currentUser) {
+      await startSession()
+      showVideoScreen()
+    } else {
+      showError('signup-error', 'Check your email to confirm your account, then login.')
+      btn.disabled = false
+      btn.innerHTML = 'Create Account'
+    }
+  }
+
+
+  // ════════════════════════════════
+  // SESSION — Register in Supabase
+  // ════════════════════════════════
+  async function startSession() {
+    // Generate forensic ID: 6-digit number tied to this session
+    forensicId = String(Math.floor(100000 + Math.random() * 900000))
+
+    // Remove any old sessions for this device
+    await db.from('active_sessions').delete()
+      .eq('user_id', currentUser.id)
+      .eq('device_id', deviceId)
+
+    // Insert new session
+    await db.from('active_sessions').insert({
+      user_id:     currentUser.id,
+      device_id:   deviceId,
+      last_seen:   new Date().toISOString(),
+      platform:    'web',
+      email:       currentUser.email,
+      forensic_id: forensicId
+    })
+  }
+
+
+  // ════════════════════════════════
+  // HEARTBEAT — Every 30 seconds
+  // ════════════════════════════════
+  function startHeartbeat() {
+    heartbeatTimer = setInterval(async () => {
+      if (!currentUser) return
+
+      // 1. Update our own timestamp
+      await db.from('active_sessions')
+        .update({ last_seen: new Date().toISOString(), email: currentUser.email, forensic_id: forensicId })
+        .eq('user_id', currentUser.id)
+        .eq('device_id', deviceId)
+
+      // 2. KILL SWITCH — check how many active sessions exist
+      const cutoff = new Date(Date.now() - 60000).toISOString() // within last 60s
+      const { data: sessions } = await supabase
+        .from('active_sessions')
+        .select('device_id')
+        .eq('user_id', currentUser.id)
+        .gte('last_seen', cutoff)
+
+      if (sessions && sessions.length > 1) {
+        const mySession = sessions.find(s => s.device_id === deviceId)
+        if (!mySession) {
+          // We are the newer device — get revoked
+          triggerRevoke()
+        } else {
+          // We're active — kill the oldest session (optional advanced logic)
+          // For now: if more than 1 active device, revoke this one too
+          triggerRevoke()
+        }
+      }
+
+    }, 30000) // 30 seconds
+  }
+
+
+  // ════════════════════════════════
+  // REVOKE — Kill Switch Fires
+  // ════════════════════════════════
+  function triggerRevoke() {
+    clearInterval(heartbeatTimer)
+    clearInterval(watermarkTimer)
+    document.getElementById('video-screen').style.display = 'none'
+    const rs = document.getElementById('revoke-screen')
+    rs.style.display = 'flex'
+  }
+
+
+  // ════════════════════════════════
+  // WATERMARK — Floating Forensic ID
+  // ════════════════════════════════
+  function startWatermark() {
+    const wm = document.getElementById('watermark')
+    const wrap = document.querySelector('.player-wrap')
+    wm.textContent = forensicId
+
+    function moveWatermark() {
+      const maxX = wrap.offsetWidth  - 120
+      const maxY = wrap.offsetHeight - 40
+      const x = Math.floor(Math.random() * maxX)
+      const y = Math.floor(Math.random() * maxY)
+      wm.style.left = x + 'px'
+      wm.style.top  = y + 'px'
+    }
+
+    moveWatermark()
+    watermarkTimer = setInterval(moveWatermark, 5000) // moves every 5s
+  }
+
+
+  // ════════════════════════════════
+  // VIDEO — Load HLS Stream
+  // ════════════════════════════════
+  function loadVideo() {
+    const video = document.getElementById('player')
+    if (Hls.isSupported()) {
+      const hls = new Hls()
+      hls.loadSource(STREAM_URL)
+      hls.attachMedia(video)
+      hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(() => {}))
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = STREAM_URL
+    }
+
+    // Disable right-click on player
+    video.addEventListener('contextmenu', e => e.preventDefault())
+  }
+
+
+  // ════════════════════════════════
+  // SCREEN TRANSITIONS
+  // ════════════════════════════════
+  function showVideoScreen() {
+    document.getElementById('login-screen').style.display = 'none'
+    const vs = document.getElementById('video-screen')
+    vs.style.display = 'flex'
+
+    // Show forensic ID in sidebar
+    document.getElementById('forensic-display').textContent = forensicId
+    document.getElementById('session-info').textContent =
+      currentUser.email.split('@')[0] + ' · Secured'
+
+    loadVideo()
+    startWatermark()
+    startHeartbeat()
+  }
+
+  function goToLogin() {
+    document.getElementById('revoke-screen').style.display = 'none'
+    document.getElementById('login-screen').style.display = 'flex'
+    document.getElementById('login-btn').disabled = false
+    document.getElementById('login-btn').innerHTML = 'Login to Platform'
+  }
+
+  function toggleSignup(show) {
+    document.getElementById('login-form').style.display  = show ? 'none' : 'block'
+    document.getElementById('signup-form').style.display = show ? 'block' : 'none'
+  }
+
+
+  // ════════════════════════════════
+  // LOGOUT
+  // ════════════════════════════════
+  async function logout() {
+    clearInterval(heartbeatTimer)
+    clearInterval(watermarkTimer)
+
+    if (currentUser) {
+      await db.from('active_sessions')
+        .delete()
+        .eq('user_id', currentUser.id)
+        .eq('device_id', deviceId)
+    }
+
+    await db.auth.signOut()
+    currentUser = null
+
+    document.getElementById('video-screen').style.display = 'none'
+    document.getElementById('login-screen').style.display = 'flex'
+    document.getElementById('login-btn').disabled = false
+    document.getElementById('login-btn').innerHTML = 'Login to Platform'
+  }
+
+
+  // ════════════════════════════════
+  // HELPERS
+  // ════════════════════════════════
+  function showError(id, msg) {
+    const el = document.getElementById(id)
+    el.textContent = '⚠ ' + msg
+    el.style.display = 'block'
+  }
+
+  // Block keyboard shortcuts for screenshots (basic deterrence)
+  document.addEventListener('keydown', e => {
+    if ((e.key === 'PrintScreen') ||
+        (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 'I')) ||
+        (e.metaKey && e.shiftKey && (e.key === '3' || e.key === '4'))) {
+      e.preventDefault()
+    }
+  })
+
+
+  // ════════════════════════════════
+  // HANDLE OAUTH REDIRECT ON LOAD
+  // ════════════════════════════════
+  async function checkExistingSession() {
+    const { data: { session } } = await db.auth.getSession()
+    if (session && session.user) {
+      currentUser = session.user
+      await startSession()
+      showVideoScreen()
+    }
+  }
+  checkExistingSession()
+
+  // Expose functions to global scope for onclick handlers
+  window.login        = login
+  window.signup       = signup
+  window.logout       = logout
+  window.toggleSignup = toggleSignup
+  window.goToLogin    = goToLogin
+  window.loginWithGoogle = loginWithGoogle
+
+</script>
+</body>
+</html>
