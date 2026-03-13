@@ -1136,6 +1136,7 @@
   
 
     </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1617,12 +1618,12 @@
 
     <div class="a-field">
       <label class="a-label">Admin Email</label>
-      <input class="a-input" id="admin-email" type="email" placeholder="admin@setanel.com"/>
+      <input class="a-input" id="admin-email" type="email" placeholder="admin@setanel.com" onkeydown="if(event.key==='Enter') adminLogin()"/>
     </div>
 
     <div class="a-field">
       <label class="a-label">Password</label>
-      <input class="a-input" id="admin-pass" type="password" placeholder="••••••••"/>
+      <input class="a-input" id="admin-pass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter') adminLogin()"/>
     </div>
 
     <button class="a-btn" id="admin-login-btn" onclick="adminLogin()">Enter Dashboard</button>
@@ -1816,7 +1817,7 @@
   // ══════════════════════════════
   // CONFIG
   // ══════════════════════════════
-  const SUPABASE_URL = 'https://cqvwkvrlamsdmdzcdmkn.supabase.co'
+  const SUPABASE_URL = 'https://cqvwkvrlamsdmdzcdmkn.supabase.co' // Replace with your Supabase URL
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxdndrdnJsYW1zZG1kemNkbWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDk1NjIsImV4cCI6MjA4ODgyNTU2Mn0.OtPo1iQWkFDWeXrqXYFu9XD7h9B3RZFqIP1tM17CgkI'
   const ALERT_WEBHOOK = '' // Optional: paste a webhook URL to get email alerts (e.g. make.com or zapier)
   const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
@@ -2268,5 +2269,4 @@
   checkAdminSession()
 </script>
 </body>
-
 </html>
