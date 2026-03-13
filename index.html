@@ -68,7 +68,7 @@
     }
 
     .nav-links a {
-      font-size: 0.72rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       text-decoration: none; letter-spacing: 1px;
       transition: color 0.2s;
     }
@@ -77,7 +77,7 @@
 
     .nav-cta {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem; font-weight: 600;
+      font-size: 0.82rem; font-weight: 600;
       color: #000; background: #fff;
       border: none; border-radius: 999px;
       padding: 9px 22px; cursor: pointer;
@@ -99,7 +99,7 @@
     }
 
     .hero-eyebrow {
-      font-size: 0.68rem; color: var(--muted);
+      font-size: 0.82rem; color: var(--muted);
       letter-spacing: 3px; text-transform: uppercase;
       border: 1px solid var(--border2);
       padding: 6px 16px; border-radius: 999px;
@@ -197,7 +197,7 @@
     }
 
     .section-eyebrow {
-      font-size: 0.65rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       letter-spacing: 3px; text-transform: uppercase;
       margin-bottom: 1rem;
     }
@@ -244,13 +244,13 @@
     }
 
     .feature-desc {
-      font-size: 0.75rem; color: var(--muted);
+      font-size: 0.82rem; color: var(--muted);
       line-height: 1.8; letter-spacing: 0.3px;
     }
 
     .feature-tag {
       display: inline-block; margin-top: 0.8rem;
-      font-size: 0.62rem; color: var(--muted2);
+      font-size: 0.70rem; color: var(--muted2);
       letter-spacing: 1.5px; text-transform: uppercase;
       border: 1px solid var(--border2);
       padding: 3px 8px; border-radius: 2px;
@@ -287,7 +287,7 @@
     }
 
     .step-desc {
-      font-size: 0.75rem; color: var(--muted);
+      font-size: 0.82rem; color: var(--muted);
       line-height: 1.8;
     }
 
@@ -308,7 +308,7 @@
 
     .code-tab {
       padding: 12px 20px;
-      font-size: 0.7rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       letter-spacing: 1px; cursor: pointer;
       border-right: 1px solid var(--border);
       transition: color 0.2s;
@@ -362,7 +362,7 @@
     }
 
     .price-plan {
-      font-size: 0.65rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       letter-spacing: 2.5px; text-transform: uppercase;
       margin-bottom: 1rem;
     }
@@ -375,7 +375,7 @@
     }
 
     .price-period {
-      font-size: 0.7rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       margin-top: 4px; margin-bottom: 1.5rem;
     }
 
@@ -385,7 +385,7 @@
     }
 
     .price-features li {
-      font-size: 0.75rem; color: var(--muted);
+      font-size: 0.82rem; color: var(--muted);
       padding: 8px 0;
       border-bottom: 1px solid var(--border);
       letter-spacing: 0.3px;
@@ -443,7 +443,7 @@
     }
 
     .contact-sub {
-      font-size: 0.75rem; color: var(--muted);
+      font-size: 0.82rem; color: var(--muted);
       line-height: 1.7; margin-bottom: 2rem;
     }
 
@@ -451,7 +451,7 @@
 
     .form-label {
       display: block;
-      font-size: 0.65rem; color: var(--muted);
+      font-size: 0.78rem; color: var(--muted);
       letter-spacing: 2px; text-transform: uppercase;
       margin-bottom: 8px;
     }
@@ -532,7 +532,7 @@
     }
 
     .footer-copy {
-      font-size: 0.68rem; color: var(--muted2);
+      font-size: 0.82rem; color: var(--muted2);
       letter-spacing: 0.5px;
     }
 
@@ -557,7 +557,585 @@
       .nav-links { display: none; }
       footer { flex-direction: column; gap: 0.5rem; text-align: center; }
     }
-  </style>
+  
+    .nav-admin-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted, #888);
+      background: none;
+      border: 1px solid #2a2a2a;
+      border-radius: 999px;
+      padding: 8px 18px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      margin-left: 8px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .nav-admin-btn:hover { color: #fff; border-color: #555; }
+
+    /* Admin Panel Overlay */
+    #admin-panel {
+      display: none;
+    }
+    #admin-panel.active {
+      display: block;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 99999;
+      overflow-y: auto;
+      background: #060606;
+    }
+
+    /* ══ DASHBOARD STYLES ══ */
+    #admin-panel {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #060606;
+      --s1:       #0e0e0e;
+      --s2:       #141414;
+      --s3:       #1a1a1a;
+      --border:   #222222;
+      --border2:  #2e2e2e;
+      --text:     #f0f0f0;
+      --muted:    #777777;
+      --muted2:   #aaaaaa;
+      --white:    #ffffff;
+      --danger:   #ff3333;
+      --warn:     #ffaa00;
+      --ok:       #aaaaaa;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* grid bg */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── ADMIN LOGIN ── */
+    #admin-login {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+
+    .admin-login-card {
+      width: 100%; max-width: 460px;
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 0 12px 0 12px;
+      padding: 3rem 3.5rem;
+      position: relative;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .admin-login-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: #fff;
+    }
+
+    .admin-brand {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .admin-brand svg { flex-shrink: 0; }
+
+    .admin-brand-text {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 1.3rem; color: #fff; letter-spacing: 2px;
+    }
+
+    .admin-brand-sub {
+      font-size: 0.6rem; color: var(--muted2);
+      letter-spacing: 2px; text-transform: uppercase; margin-top: 2px;
+    }
+
+    .admin-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: #fff; letter-spacing: 1px; margin-bottom: 0.3rem;
+    }
+
+    .admin-sub {
+      font-size: 0.78rem; color: var(--muted2);
+      margin-bottom: 1.8rem; letter-spacing: 0.3px; line-height: 1.6;
+    }
+
+    .a-field { margin-bottom: 1.1rem; }
+
+    .a-label {
+      display: block; font-size: 0.73rem;
+      color: var(--muted2); letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 7px;
+    }
+
+    .a-input {
+      width: 100%;
+      background: #080808;
+      border: 1px solid var(--border2);
+      border-radius: 0;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .a-input:focus { border-color: #666; }
+    .a-input::placeholder { color: #333; }
+
+    .a-btn {
+      width: 100%; padding: 13px;
+      background: #fff; border: none;
+      border-radius: 999px;
+      color: #000;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; margin-top: 0.4rem;
+      transition: background 0.2s;
+    }
+
+    .a-btn:hover { background: #ddd; }
+    .a-btn:disabled { background: #222; color: #555; cursor: not-allowed; }
+
+    .a-err {
+      display: none;
+      background: rgba(255,51,51,0.07);
+      border: 1px solid rgba(255,51,51,0.2);
+      border-radius: 3px;
+      padding: 10px 13px;
+      font-size: 0.82rem; color: #ff7777;
+      margin-top: 0.8rem; line-height: 1.5;
+    }
+
+    /* ── DASHBOARD ── */
+    #dashboard { display: none; position: relative; z-index: 1; min-height: 100vh; }
+
+    /* Top bar */
+    .topbar {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 2rem;
+      background: var(--s1);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .topbar-left { display: flex; align-items: center; gap: 10px; }
+
+    .topbar-brand {
+      font-family: 'Nova Square', sans-serif;
+      font-size: 1rem; color: #fff; letter-spacing: 2px;
+    }
+
+    .topbar-tag {
+      font-size: 0.6rem; color: var(--muted2);
+      letter-spacing: 2px; text-transform: uppercase;
+      background: var(--s3);
+      border: 1px solid var(--border2);
+      padding: 3px 8px; border-radius: 2px;
+    }
+
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+
+    .live-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--ok); letter-spacing: 1px;
+    }
+
+    .live-dot {
+      width: 6px; height: 6px;
+      background: #fff; border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .refresh-btn, .logout-admin-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; color: var(--muted2);
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 4px 0 4px 0;
+      padding: 6px 14px; cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.5px;
+    }
+
+    .refresh-btn:hover { color: #fff; border-color: #666; }
+    .logout-admin-btn:hover { color: #ff6666; border-color: #ff3333; }
+
+    /* Main layout */
+    .dash-body {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Stats row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .stat-card:nth-child(1) { border-radius: 10px 0 0 0; animation-delay: 0.05s; }
+    .stat-card:nth-child(2) { border-radius: 0 0 0 0;    animation-delay: 0.1s; }
+    .stat-card:nth-child(3) { border-radius: 0 0 0 0;    animation-delay: 0.15s; }
+    .stat-card:nth-child(4) { border-radius: 0 10px 0 0; animation-delay: 0.2s; }
+
+    .stat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: var(--border2);
+    }
+
+    .stat-label {
+      font-size: 0.70rem; color: var(--muted2);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-family: 'Tourney', sans-serif;
+      font-size: 2.4rem; font-weight: 700;
+      color: #fff; letter-spacing: 2px; line-height: 1;
+    }
+
+    .stat-sub {
+      font-size: 0.78rem; color: var(--muted);
+      margin-top: 6px; letter-spacing: 0.5px;
+    }
+
+    .stat-danger .stat-value { color: var(--danger); }
+    .stat-warn .stat-value   { color: var(--warn); }
+
+    /* Section headers */
+    .section-head {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: 0.82rem; color: var(--muted2);
+      letter-spacing: 2.5px; text-transform: uppercase;
+    }
+
+    .section-count {
+      font-size: 0.78rem; color: var(--muted);
+      background: var(--s2);
+      border: 1px solid var(--border);
+      padding: 3px 10px; border-radius: 2px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead tr {
+      background: var(--s2);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    th {
+      padding: 12px 16px;
+      font-size: 0.70rem; color: var(--muted2);
+      letter-spacing: 2px; text-transform: uppercase;
+      text-align: left; font-weight: 500;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--s2); }
+
+    td {
+      padding: 13px 16px;
+      font-size: 0.78rem; color: var(--text);
+      vertical-align: middle;
+    }
+
+    .forensic-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem; font-weight: 600;
+      color: #fff; letter-spacing: 4px;
+      background: var(--s3);
+      border: 1px solid var(--border2);
+      padding: 4px 10px; border-radius: 2px;
+      display: inline-block;
+    }
+
+    .platform-chip {
+      font-size: 0.73rem; letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px; border-radius: 2px;
+      border: 1px solid var(--border2);
+      color: var(--muted2);
+    }
+
+    .time-cell { color: var(--muted2); font-size: 0.78rem; }
+
+    .email-cell { color: var(--muted2); font-size: 0.82rem; }
+
+    .status-active {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.73rem; color: #ccc; letter-spacing: 1px;
+    }
+
+    .status-active::before {
+      content: '';
+      width: 5px; height: 5px;
+      background: #fff; border-radius: 50%;
+      display: inline-block;
+      animation: pulse 2s infinite;
+    }
+
+    .status-banned {
+      font-size: 0.73rem; color: var(--danger);
+      letter-spacing: 1px;
+      background: rgba(255,51,51,0.07);
+      border: 1px solid rgba(255,51,51,0.2);
+      padding: 3px 10px; border-radius: 2px;
+    }
+
+    /* Action buttons */
+    .ban-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--danger);
+      background: rgba(255,51,51,0.06);
+      border: 1px solid rgba(255,51,51,0.25);
+      border-radius: 4px 0 4px 0;
+      padding: 6px 14px; cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    .ban-btn:hover {
+      background: rgba(255,51,51,0.15);
+      border-color: var(--danger);
+    }
+
+    .unban-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--muted2);
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 4px 0 4px 0;
+      padding: 6px 14px; cursor: pointer;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+
+    .unban-btn:hover { color: #fff; border-color: #666; }
+
+    .kick-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--warn);
+      background: rgba(255,170,0,0.05);
+      border: 1px solid rgba(255,170,0,0.2);
+      border-radius: 4px 0 4px 0;
+      padding: 6px 12px; cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-right: 6px;
+    }
+
+    .kick-btn:hover { background: rgba(255,170,0,0.12); }
+
+    /* Empty states */
+    .empty-row td {
+      text-align: center; color: var(--muted);
+      font-size: 0.82rem; padding: 2.5rem;
+      letter-spacing: 1px;
+    }
+
+    /* Toast */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--s2);
+      border: 1px solid var(--border2);
+      border-radius: 4px 0 4px 0;
+      padding: 12px 20px;
+      font-size: 0.78rem; color: #fff;
+      letter-spacing: 0.5px;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    #toast.show { opacity: 1; transform: translateY(0); }
+    #toast.danger { border-color: rgba(255,51,51,0.4); color: #ff7777; }
+    #toast.success { border-color: rgba(255,255,255,0.2); color: #ccc; }
+
+    /* Confirm modal */
+    #confirm-modal {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      align-items: center; justify-content: center;
+    }
+
+    .confirm-box {
+      background: var(--s1);
+      border: 1px solid var(--border2);
+      border-radius: 0 12px 0 12px;
+      padding: 2rem;
+      max-width: 380px; width: 90%;
+      position: relative;
+    }
+
+    .confirm-box::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 1px; background: var(--danger);
+    }
+
+    .confirm-title {
+      font-family: 'Tourney', sans-serif;
+      font-size: 1.2rem; color: #fff;
+      margin-bottom: 0.5rem; letter-spacing: 1px;
+    }
+
+    .confirm-msg {
+      font-size: 0.78rem; color: var(--muted2);
+      line-height: 1.7; margin-bottom: 1.5rem;
+    }
+
+    .confirm-email {
+      color: #fff; font-weight: 600;
+    }
+
+    .confirm-actions { display: flex; gap: 10px; }
+
+    .confirm-yes {
+      flex: 1; padding: 11px;
+      background: var(--danger); border: none;
+      border-radius: 3px; color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+
+    .confirm-yes:hover { opacity: 0.85; }
+
+    .confirm-no {
+      flex: 1; padding: 11px;
+      background: none;
+      border: 1px solid var(--border2);
+      border-radius: 3px; color: var(--muted2);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      cursor: pointer; transition: color 0.2s;
+    }
+
+    .confirm-no:hover { color: #fff; }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 12px; height: 12px;
+      border: 2px solid rgba(0,0,0,0.15);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle; margin-right: 6px;
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Search bar */
+    .search-bar {
+      display: flex; gap: 10px; margin-bottom: 1rem;
+    }
+
+    .search-input {
+      flex: 1;
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 0;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem; outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus { border-color: #555; }
+    .search-input::placeholder { color: #333; font-size: 0.82rem; }
+
+    /* Two column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .two-col   { grid-template-columns: 1fr; }
+    }
+  
+
+    </style>
 </head>
 <body>
 
@@ -580,6 +1158,7 @@
     <a href="#contact">Contact</a>
   </div>
   <a href="#contact" class="nav-cta">Get Access</a>
+  <button class="nav-admin-btn" onclick="showAdminPanel()">Admin Login</button>
 </nav>
 
 <!-- ── HERO ── -->
@@ -737,10 +1316,10 @@
 
     <div class="code-section">
       <div class="code-tabs">
-        <div class="code-tab active">HTML / CDN</div>
-        <div class="code-tab" style="color:#444">npm / ES Module</div>
+        <div class="code-tab active" onclick="switchTab(0)">HTML / CDN</div>
+        <div class="code-tab" onclick="switchTab(1)">npm / ES Module</div>
       </div>
-      <div class="code-body">
+      <div class="code-body" id="code-block-cdn">
         <pre><span style="color:#555">// Step 1 — Add to your HTML</span>
 &lt;<span style="color:#7dd3fc">script</span> src=<span style="color:#86efac">"https://cdn.jsdelivr.net/npm/setanel-sdk/index.js"</span>&gt;&lt;/<span style="color:#7dd3fc">script</span>&gt;
 
@@ -762,6 +1341,30 @@
 <span style="color:#555">// Step 3 — Clean up on logout</span>
 <span style="color:#7dd3fc">Setanel</span>.<span style="color:#fca5a5">destroy</span>()</pre>
       </div>
+      <div class="code-body" id="code-block-npm" style="display:none">
+        <pre><span style="color:#555">// Step 1 — Install via npm</span>
+<span style="color:#86efac">npm install setanel-sdk</span>
+
+<span style="color:#555">// Step 2 — Import in your component</span>
+<span style="color:#7dd3fc">import</span> Setanel <span style="color:#7dd3fc">from</span> <span style="color:#86efac">'setanel-sdk'</span>
+
+<span style="color:#555">// Step 3 — Initialize after your student logs in</span>
+<span style="color:#7dd3fc">Setanel</span>.<span style="color:#fca5a5">init</span>({
+  supabaseUrl:  <span style="color:#86efac">'https://your-project.supabase.co'</span>,
+  supabaseKey:  <span style="color:#86efac">'your-anon-key'</span>,
+  userId:       <span style="color:#86efac">currentStudent.id</span>,
+  userEmail:    <span style="color:#86efac">currentStudent.email</span>,
+  videoUrl:     <span style="color:#86efac">'https://your-cdn.com/lecture.m3u8'</span>,
+  container:    <span style="color:#86efac">'#video-player'</span>,
+  deviceLimit:  <span style="color:#fca5a5">1</span>,
+  onRevoke: (<span style="color:#7dd3fc">reason</span>) =&gt; {
+    window.location.href = <span style="color:#86efac">'/login'</span>
+  }
+})
+
+<span style="color:#555">// Step 4 — Clean up on logout</span>
+<span style="color:#7dd3fc">Setanel</span>.<span style="color:#fca5a5">destroy</span>()</pre>
+      </div>
     </div>
   </div>
 </section>
@@ -777,33 +1380,36 @@
   <div class="pricing-grid">
     <div class="price-card">
       <div class="price-plan">Starter</div>
-      <div class="price-amount">$19</div>
+      <div class="price-amount">$49</div>
       <div class="price-period">per month</div>
       <ul class="price-features">
-        <li>Up to 200 active students</li>
-        <li>Kill switch (1 device)</li>
-        <li>Forensic watermark</li>
+        <li>Up to 5,000 active students</li>
+        <li>Kill switch (1 device limit)</li>
+        <li>Encrypted forensic watermark</li>
+        <li>Invisible watermark layer</li>
         <li>Admin dashboard</li>
         <li>Email support</li>
       </ul>
-      <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView()">
+      <button class="price-btn price-btn-outline" onclick="selectPlan('Starter', '$49/month', 'Under 5,000')">
         Get Started
       </button>
     </div>
 
     <div class="price-card featured">
       <div class="price-plan">Growth</div>
-      <div class="price-amount">$49</div>
+      <div class="price-amount">$99</div>
       <div class="price-period">per month</div>
       <ul class="price-features">
-        <li>Up to 1,000 active students</li>
-        <li>Kill switch (configurable)</li>
-        <li>Forensic watermark</li>
-        <li>Admin dashboard</li>
+        <li>Up to 20,000 active students</li>
+        <li>Kill switch (configurable limit)</li>
+        <li>Encrypted forensic watermark</li>
+        <li>Invisible watermark layer</li>
+        <li>Admin dashboard + analytics</li>
+        <li>Email alerts on suspicious activity</li>
         <li>Ban management</li>
         <li>Priority support</li>
       </ul>
-      <button class="price-btn price-btn-white" onclick="document.getElementById('contact').scrollIntoView()">
+      <button class="price-btn price-btn-white" onclick="selectPlan('Growth', '$99/month', '5,000 – 20,000')">
         Get Started
       </button>
     </div>
@@ -815,12 +1421,13 @@
       <ul class="price-features">
         <li>Unlimited students</li>
         <li>Custom device limits</li>
-        <li>Dedicated dashboard</li>
+        <li>Dedicated isolated dashboard</li>
+        <li>IP-based anomaly detection</li>
+        <li>API key per platform</li>
         <li>SLA guarantee</li>
-        <li>Integration support</li>
         <li>White-label option</li>
       </ul>
-      <button class="price-btn price-btn-outline" onclick="document.getElementById('contact').scrollIntoView()">
+      <button class="price-btn price-btn-outline" onclick="selectPlan('Enterprise', 'Custom pricing', '20,000+')">
         Contact Us
       </button>
     </div>
@@ -844,6 +1451,7 @@
     </div>
 
     <div id="contact-form">
+      <div id="plan-banner" style="display:none;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:12px 16px;margin-bottom:1.2rem;font-size:0.78rem;color:#aaa;letter-spacing:1px;"></div>
       <div class="form-row">
         <div class="form-field">
           <label class="form-label">Your Name</label>
@@ -862,10 +1470,9 @@
         <label class="form-label">Number of Active Students</label>
         <select class="form-select form-input" id="f-students">
           <option value="">Select range</option>
-          <option>Under 500</option>
-          <option>500 – 2,000</option>
-          <option>2,000 – 10,000</option>
-          <option>10,000+</option>
+          <option>Under 5,000</option>
+          <option>5,000 – 20,000</option>
+          <option>20,000+</option>
         </select>
       </div>
       <div class="form-field">
@@ -894,6 +1501,32 @@
 
 
 <script>
+  function selectPlan(plan, price, students) {
+    // Scroll to contact
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })
+
+    // Pre-fill students dropdown
+    const sel = document.getElementById('f-students')
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === students || sel.options[i].text === students) {
+        sel.selectedIndex = i
+        break
+      }
+    }
+
+    // Pre-fill message
+    const msg = document.getElementById('f-msg')
+    msg.value = `Interested in the ${plan} Plan (${price}).`
+
+    // Show plan banner
+    const banner = document.getElementById('plan-banner')
+    banner.style.display = 'block'
+    banner.innerHTML = `✓ &nbsp;<strong style="color:#fff">${plan} Plan</strong> &nbsp;·&nbsp; ${price}`
+
+    // Focus name field
+    setTimeout(() => document.getElementById('f-name').focus(), 600)
+  }
+
   async function submitForm() {
     const name     = document.getElementById('f-name').value.trim()
     const platform = document.getElementById('f-platform').value.trim()
@@ -933,14 +1566,706 @@
     }
   }
 
-  // Smooth tab switching in code block
-  document.querySelectorAll('.code-tab').forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'))
-      tab.classList.add('active')
+  function switchTab(index) {
+    document.querySelectorAll('.code-tab').forEach((t, i) => {
+      t.classList.toggle('active', i === index)
     })
-  })
+    document.getElementById('code-block-cdn').style.display = index === 0 ? 'block' : 'none'
+    document.getElementById('code-block-npm').style.display = index === 1 ? 'block' : 'none'
+  }
+  window.switchTab = switchTab
 </script>
 
+
+<!-- ══ ADMIN PANEL OVERLAY ══ -->
+<div id="admin-panel">
+
+
+<!-- ══════════════════════════════
+     ADMIN LOGIN
+══════════════════════════════ -->
+<div id="admin-login">
+  <button onclick="hideAdminPanel()" style="
+    position:absolute; top:2rem; left:2rem;
+    background:none; border:1px solid #333;
+    border-radius:999px;
+    color:#aaa; font-family:'JetBrains Mono',monospace;
+    font-size:0.78rem; letter-spacing:1.5px;
+    cursor:pointer; display:flex; align-items:center; gap:6px;
+    transition:color 0.2s, border-color 0.2s; padding:9px 20px;
+  " onmouseover="this.style.color='#fff';this.style.borderColor='#666'" onmouseout="this.style.color='#aaa';this.style.borderColor='#333'">
+    ← BACK TO SITE
+  </button>
+  <div class="admin-login-card">
+
+    <div class="admin-brand">
+      <svg width="30" height="34" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 2 L34 8 L34 22 Q34 34 18 39 Q2 34 2 22 L2 8 Z" fill="#ffffff"/>
+        <line x1="18" y1="2" x2="18" y2="39" stroke="#000" stroke-width="1.8"/>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="#000" stroke-width="1.8"/>
+        <path d="M18 20 C13 23 7 27 4 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M18 20 C23 23 29 27 32 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="admin-brand-text">SETANEL</div>
+        <div class="admin-brand-sub">Admin Console</div>
+      </div>
+    </div>
+
+    <div class="admin-title">Admin Access</div>
+    <div class="admin-sub">// Restricted. Authorised personnel only.</div>
+
+    <div class="a-field">
+      <label class="a-label">Admin Email</label>
+      <input class="a-input" id="admin-email" type="email" placeholder="admin@setanel.com"/>
+    </div>
+
+    <div class="a-field">
+      <label class="a-label">Password</label>
+      <input class="a-input" id="admin-pass" type="password" placeholder="••••••••"/>
+    </div>
+
+    <button class="a-btn" id="admin-login-btn" onclick="adminLogin()">Enter Dashboard</button>
+    <div class="a-err" id="admin-err"></div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     DASHBOARD
+══════════════════════════════ -->
+<div id="dashboard">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-left">
+      <svg width="22" height="25" viewBox="0 0 36 40" fill="none">
+        <path d="M18 2 L34 8 L34 22 Q34 34 18 39 Q2 34 2 22 L2 8 Z" fill="#ffffff"/>
+        <line x1="18" y1="2" x2="18" y2="39" stroke="#000" stroke-width="1.8"/>
+        <line x1="2" y1="20" x2="34" y2="20" stroke="#000" stroke-width="1.8"/>
+        <path d="M18 20 C13 23 7 27 4 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <path d="M18 20 C23 23 29 27 32 34" stroke="#000" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      </svg>
+      <span class="topbar-brand">SETANEL</span>
+      <span class="topbar-tag">ADMIN CONSOLE</span>
+      <span class="topbar-client" id="client-name" style="font-size:0.65rem;color:#444;letter-spacing:2px;margin-left:8px;"></span>
+    </div>
+    <div class="topbar-right">
+      <div class="live-badge">
+        <span class="live-dot"></span>
+        LIVE
+      </div>
+      <button class="refresh-btn" onclick="loadDashboard()">↻ Refresh</button>
+      <button class="logout-admin-btn" onclick="hideAdminPanel()" style="margin-right:8px;">← Back to Site</button><button class="logout-admin-btn" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">// Active Sessions</div>
+        <div class="stat-value" id="stat-active">—</div>
+        <div class="stat-sub">devices online now</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">// Unique Users</div>
+        <div class="stat-value" id="stat-users">—</div>
+        <div class="stat-sub">watching right now</div>
+      </div>
+      <div class="stat-card stat-warn">
+        <div class="stat-label">// Suspicious</div>
+        <div class="stat-value" id="stat-suspicious">—</div>
+        <div class="stat-sub">multiple devices</div>
+      </div>
+      <div class="stat-card stat-danger">
+        <div class="stat-label">// Banned Users</div>
+        <div class="stat-value" id="stat-banned">—</div>
+        <div class="stat-sub">accounts blocked</div>
+      </div>
+    </div>
+
+    <!-- Active Sessions Table -->
+    <div class="section-head">
+      <div class="section-title">// Live Sessions</div>
+      <div class="section-count" id="sessions-count">0 sessions</div>
+    </div>
+
+    <div class="search-bar">
+      <input class="search-input" id="session-search"
+        placeholder="Search by email, forensic ID, device..."
+        oninput="filterSessions()"/>
+    </div>
+
+    <div class="table-wrap" style="animation-delay:0.25s">
+      <table>
+        <thead>
+          <tr>
+            <th>Forensic ID</th>
+            <th>Email</th>
+            <th>Device ID</th>
+            <th>Platform</th>
+            <th>Last Seen</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="sessions-tbody">
+          <tr class="empty-row"><td colspan="7" style="text-align:center;padding:2.5rem;color:#333;font-size:0.75rem;letter-spacing:1px;">Loading sessions...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Two column: Suspicious + Banned -->
+    <div class="two-col">
+
+      <!-- Suspicious Users -->
+      <div>
+        <div class="section-head">
+          <div class="section-title">// Suspicious — Multi-Device</div>
+          <div class="section-count" id="suspicious-count">0</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Devices</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="suspicious-tbody">
+              <tr class="empty-row"><td colspan="3" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">🛡 &nbsp;No suspicious activity detected</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Banned Users -->
+      <div>
+        <div class="section-head">
+          <div class="section-title">// Banned Accounts</div>
+          <div class="section-count" id="banned-count">0</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>Reason</th>
+                <th>Banned At</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="banned-tbody">
+              <tr class="empty-row"><td colspan="4" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">✓ &nbsp;No banned accounts</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Confirm Modal -->
+<div id="confirm-modal">
+  <div class="confirm-box">
+    <div class="confirm-title">Confirm Ban</div>
+    <div class="confirm-msg">
+      You are about to ban <span class="confirm-email" id="confirm-email-text"></span>.
+      Their session will be terminated immediately and they will not be able to login.
+    </div>
+    <div class="confirm-actions">
+      <button class="confirm-yes" onclick="executeBan()">Ban Account</button>
+      <button class="confirm-no" onclick="closeConfirm()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+  <!-- Footer -->
+  <div style="text-align:center;padding:2rem;font-size:0.62rem;color:#222;letter-spacing:2px;border-top:1px solid #141414;margin-top:2rem;">
+    POWERED BY SETANEL SECURITY SDK &nbsp;·&nbsp; v1.0.0
+  </div>
+
+</div>
+
+
+<script>
+  function showAdminPanel() {
+    const panel = document.getElementById('admin-panel');
+    panel.classList.add('active');
+    panel.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+  }
+  function hideAdminPanel() {
+    document.getElementById('admin-panel').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+</script>
+
+<script>
+  // ══════════════════════════════
+  // CONFIG
+  // ══════════════════════════════
+  const SUPABASE_URL = 'https://cqvwkvrlamsdmdzcdmkn.supabase.co/'
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNxdndrdnJsYW1zZG1kemNkbWtuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNDk1NjIsImV4cCI6MjA4ODgyNTU2Mn0.OtPo1iQWkFDWeXrqXYFu9XD7h9B3RZFqIP1tM17CgkI'
+  const ALERT_WEBHOOK = '' // Optional: paste a webhook URL to get email alerts (e.g. make.com or zapier)
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+
+  // ── State ──
+  let adminUser    = null
+  let allSessions  = []
+  let pendingBan   = null
+  let autoRefresh  = null
+
+  // ── Encrypted Forensic ID ──
+  // Encodes userId + timestamp into a 8-char hex string
+  // Decodable: format is btoa(userId + ':' + timestamp)
+  function encryptForensicId(userId, forensicRaw) {
+    if (!userId) return '--------'
+    try {
+      // Create a deterministic but non-obvious display ID
+      let hash = 5381
+      const str = userId + (forensicRaw || '')
+      for (let i = 0; i < str.length; i++) {
+        hash = ((hash << 5) + hash) ^ str.charCodeAt(i)
+        hash = hash & 0x7fffffff
+      }
+      return hash.toString(16).toUpperCase().padStart(8, '0').substring(0, 8)
+    } catch(e) {
+      return forensicRaw || '--------'
+    }
+  }
+
+
+  // ══════════════════════════════
+  // ADMIN LOGIN
+  // ══════════════════════════════
+  async function adminLogin() {
+    const email = document.getElementById('admin-email').value.trim()
+    const pass  = document.getElementById('admin-pass').value
+    const btn   = document.getElementById('admin-login-btn')
+    const err   = document.getElementById('admin-err')
+
+    if (!email || !pass) { showAdminErr('Fill in both fields.'); return }
+
+    btn.disabled = true
+    btn.innerHTML = '<span class="spinner"></span>Verifying...'
+    err.style.display = 'none'
+
+    const { data, error } = await db.auth.signInWithPassword({ email, password: pass })
+
+    if (error) {
+      showAdminErr(error.message)
+      btn.disabled = false
+      btn.innerHTML = 'Enter Dashboard'
+      return
+    }
+
+    adminUser = data.user
+    document.getElementById('admin-login').style.display = 'none'
+    document.getElementById('dashboard').style.display = 'block'
+    await loadDashboard()
+
+    // Auto-refresh every 30 seconds
+    autoRefresh = setInterval(loadDashboard, 30000)
+  }
+
+  function showAdminErr(msg) {
+    const el = document.getElementById('admin-err')
+    el.textContent = '⚠ ' + msg
+    el.style.display = 'block'
+  }
+
+  async function adminLogout() {
+    clearInterval(autoRefresh)
+    await db.auth.signOut()
+    hideAdminPanel()
+  }
+
+  // Check existing session on load
+  async function checkAdminSession() {
+    const { data: { session } } = await db.auth.getSession()
+    if (session) {
+      adminUser = session.user
+      document.getElementById('admin-login').style.display = 'none'
+      document.getElementById('dashboard').style.display = 'block'
+      await loadDashboard()
+      autoRefresh = setInterval(loadDashboard, 30000)
+    }
+  }
+
+
+  // ══════════════════════════════
+  // LOAD DASHBOARD DATA
+  // ══════════════════════════════
+  async function loadDashboard() {
+    await Promise.all([
+      loadSessions(),
+      loadBanned(),
+      loadAnalytics()
+    ])
+  }
+
+  // ── ANALYTICS ──
+  async function loadAnalytics() {
+    const monthStart = new Date()
+    monthStart.setDate(1)
+    monthStart.setHours(0,0,0,0)
+    const since = monthStart.toISOString()
+
+    const { data: events } = await db
+      .from('piracy_events')
+      .select('event_type')
+      .gte('created_at', since)
+
+    if (!events) return
+
+    const kills     = events.filter(e => e.event_type === 'kill_switch').length
+    const bans      = events.filter(e => e.event_type === 'ban').length
+    const flags     = events.filter(e => e.event_type === 'suspicious').length
+    const ratelimit = events.filter(e => e.event_type === 'rate_limit').length
+
+    const el = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val }
+    el('stat-kills',     kills)
+    el('stat-bans-month', bans)
+    el('stat-flags',     flags)
+    el('stat-ratelimit', ratelimit)
+  }
+
+  async function loadSessions() {
+    const cutoff = new Date(Date.now() - 90000).toISOString() // 90s window
+
+    const { data: sessions, error } = await db
+      .from('active_sessions')
+      .select('*')
+      .gte('last_seen', cutoff)
+      .order('last_seen', { ascending: false })
+
+    if (error) { showToast('Failed to load sessions', 'danger'); return }
+
+    allSessions = sessions || []
+    renderSessions(allSessions)
+    renderStats(allSessions)
+    await renderSuspicious(allSessions)
+  }
+
+  async function loadBanned() {
+    const { data: banned } = await db
+      .from('banned_users')
+      .select('*')
+      .order('banned_at', { ascending: false })
+
+    renderBanned(banned || [])
+    document.getElementById('stat-banned').textContent = (banned || []).length
+    document.getElementById('banned-count').textContent = (banned || []).length
+  }
+
+
+  // ══════════════════════════════
+  // RENDER SESSIONS TABLE
+  // ══════════════════════════════
+  function renderSessions(sessions) {
+    const tbody = document.getElementById('sessions-tbody')
+    document.getElementById('sessions-count').textContent = sessions.length + ' sessions'
+
+    if (!sessions.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="7">No active sessions right now</td></tr>'
+      return
+    }
+
+    tbody.innerHTML = sessions.map(s => {
+      const ago     = timeAgo(s.last_seen)
+      const shortId = s.device_id ? s.device_id.substring(0, 16) + '...' : '—'
+      const fid     = encryptForensicId(s.user_id, s.forensic_id)
+
+      return `<tr>
+        <td><span class="forensic-chip">${fid}</span></td>
+        <td class="email-cell">${s.email || s.user_id?.substring(0,20) + '...' || '—'}</td>
+        <td class="time-cell" title="${s.device_id}">${shortId}</td>
+        <td><span class="platform-chip">${s.platform || 'web'}</span></td>
+        <td class="time-cell">${ago}</td>
+        <td><span class="status-active">LIVE</span></td>
+        <td>
+          <button class="kick-btn" onclick="kickSession('${s.user_id}', '${s.device_id}')">Kick</button>
+          <button class="ban-btn" onclick="confirmBan('${s.user_id}', '${s.email || ''}')">Ban</button>
+        </td>
+      </tr>`
+    }).join('')
+  }
+
+
+  // ══════════════════════════════
+  // RENDER STATS
+  // ══════════════════════════════
+  function renderStats(sessions) {
+    const uniqueUsers = [...new Set(sessions.map(s => s.user_id))].length
+    const suspicious  = Object.values(
+      sessions.reduce((acc, s) => {
+        acc[s.user_id] = (acc[s.user_id] || 0) + 1
+        return acc
+      }, {})
+    ).filter(c => c > 1).length
+
+    document.getElementById('stat-active').textContent   = sessions.length
+    document.getElementById('stat-users').textContent    = uniqueUsers
+    document.getElementById('stat-suspicious').textContent = suspicious
+  }
+
+
+  // ══════════════════════════════
+  // RENDER SUSPICIOUS
+  // ══════════════════════════════
+  async function renderSuspicious(sessions) {
+    const counts = sessions.reduce((acc, s) => {
+      if (!acc[s.user_id]) acc[s.user_id] = { count: 0, email: s.email || s.user_id }
+      acc[s.user_id].count++
+      return acc
+    }, {})
+
+    const multi = Object.entries(counts).filter(([, v]) => v.count > 1)
+    document.getElementById('suspicious-count').textContent = multi.length
+
+    // Log suspicious events and alert
+    for (const [uid, v] of multi) {
+      await db.from('piracy_events').upsert({
+        event_type: 'suspicious',
+        user_id:    uid,
+        email:      v.email,
+        detail:     `${v.count} simultaneous devices detected`,
+        created_at: new Date().toISOString()
+      }, { onConflict: 'user_id,event_type' }).select()
+    }
+    if (multi.length > 0) sendAlert('SUSPICIOUS ACTIVITY', `${multi.length} account(s) detected on multiple devices`)
+
+    const tbody = document.getElementById('suspicious-tbody')
+    if (!multi.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="3" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">🛡 &nbsp;No suspicious activity detected</td></tr>'
+      return
+    }
+
+    tbody.innerHTML = multi.map(([uid, v]) => `
+      <tr>
+        <td class="email-cell">${v.email}</td>
+        <td style="color:var(--warn);font-weight:600;">${v.count} devices</td>
+        <td><button class="ban-btn" onclick="confirmBan('${uid}','${v.email}')">Ban</button></td>
+      </tr>
+    `).join('')
+  }
+
+
+  // ══════════════════════════════
+  // RENDER BANNED
+  // ══════════════════════════════
+  function renderBanned(banned) {
+    const tbody = document.getElementById('banned-tbody')
+
+    if (!banned.length) {
+      tbody.innerHTML = '<tr class="empty-row"><td colspan="4" style="text-align:center;padding:2rem;color:#333;font-size:0.75rem;letter-spacing:1px;">✓ &nbsp;No banned accounts</td></tr>'
+      return
+    }
+
+    tbody.innerHTML = banned.map(b => `
+      <tr>
+        <td class="email-cell">${b.email || '—'}</td>
+        <td class="time-cell">${b.reason || 'Manual ban'}</td>
+        <td class="time-cell">${timeAgo(b.banned_at)}</td>
+        <td><button class="unban-btn" onclick="unban('${b.user_id}','${b.email}')">Unban</button></td>
+      </tr>
+    `).join('')
+  }
+
+
+  // ══════════════════════════════
+  // SEARCH / FILTER
+  // ══════════════════════════════
+  function filterSessions() {
+    const q = document.getElementById('session-search').value.toLowerCase()
+    if (!q) { renderSessions(allSessions); return }
+    const filtered = allSessions.filter(s =>
+      (s.email || '').toLowerCase().includes(q) ||
+      (s.device_id || '').toLowerCase().includes(q) ||
+      (s.forensic_id || '').includes(q) ||
+      (s.platform || '').toLowerCase().includes(q)
+    )
+    renderSessions(filtered)
+  }
+
+
+  // ══════════════════════════════
+  // KICK SESSION
+  // ══════════════════════════════
+  async function kickSession(userId, deviceId) {
+    const { error } = await db
+      .from('active_sessions')
+      .delete()
+      .eq('user_id', userId)
+      .eq('device_id', deviceId)
+
+    if (error) { showToast('Failed to kick session', 'danger'); return }
+    showToast('Session terminated — user will be logged out within 30s', 'success')
+    await loadSessions()
+  }
+
+
+  // ══════════════════════════════
+  // BAN FLOW
+  // ══════════════════════════════
+  function confirmBan(userId, email) {
+    pendingBan = { userId, email }
+    document.getElementById('confirm-email-text').textContent = email || userId
+    document.getElementById('confirm-modal').style.display = 'flex'
+  }
+
+  function closeConfirm() {
+    pendingBan = null
+    document.getElementById('confirm-modal').style.display = 'none'
+  }
+
+  async function executeBan() {
+    if (!pendingBan) return
+    const { userId, email } = pendingBan
+    closeConfirm()
+
+    // 1. Add to banned_users table
+    await db.from('banned_users').upsert({
+      user_id:   userId,
+      email:     email,
+      reason:    'Manual ban by admin',
+      banned_at: new Date().toISOString()
+    })
+
+    // 2. Kill all their active sessions
+    await db.from('active_sessions').delete().eq('user_id', userId)
+
+    // 3. Log piracy event
+    await db.from('piracy_events').insert({
+      event_type: 'ban',
+      user_id:    userId,
+      email:      email,
+      detail:     'Manual ban by admin',
+      created_at: new Date().toISOString()
+    })
+
+    // 4. Send alert
+    sendAlert('ACCOUNT BANNED', `Admin banned: ${email}`)
+
+    showToast(`${email} has been banned and kicked`, 'success')
+    await loadDashboard()
+  }
+
+
+  // ══════════════════════════════
+  // UNBAN
+  // ══════════════════════════════
+  async function unban(userId, email) {
+    await db.from('banned_users').delete().eq('user_id', userId)
+    showToast(`${email} has been unbanned`, 'success')
+    await loadBanned()
+  }
+
+
+  // ══════════════════════════════
+  // EMAIL ALERTS
+  // ══════════════════════════════
+  async function sendAlert(title, message) {
+    if (!ALERT_WEBHOOK) return // No webhook configured
+    try {
+      await fetch(ALERT_WEBHOOK, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title:   `[Setanel Alert] ${title}`,
+          message: message,
+          time:    new Date().toLocaleString()
+        })
+      })
+    } catch(e) {
+      console.warn('[Setanel] Alert webhook failed:', e.message)
+    }
+  }
+
+  // ══════════════════════════════
+  // RATE LIMIT CHECK
+  // ══════════════════════════════
+  async function checkRateLimit(userId) {
+    const windowStart = new Date(Date.now() - 3600000).toISOString() // 1 hour
+    const { data } = await db
+      .from('login_attempts')
+      .select('id')
+      .eq('user_id', userId)
+      .gte('attempted_at', windowStart)
+
+    const attempts = data ? data.length : 0
+    if (attempts > 10) {
+      // Log rate limit event
+      await db.from('piracy_events').insert({
+        event_type: 'rate_limit',
+        user_id:    userId,
+        detail:     `${attempts} login attempts in 1 hour`,
+        created_at: new Date().toISOString()
+      })
+      sendAlert('RATE LIMIT HIT', `User ${userId} made ${attempts} attempts in 1 hour`)
+      return true // blocked
+    }
+
+    // Log this attempt
+    await db.from('login_attempts').insert({
+      user_id:      userId,
+      attempted_at: new Date().toISOString()
+    })
+    return false
+  }
+
+  // ══════════════════════════════
+  // HELPERS
+  // ══════════════════════════════
+  function timeAgo(ts) {
+    if (!ts) return '—'
+    const diff = Math.floor((Date.now() - new Date(ts)) / 1000)
+    if (diff < 10)  return 'just now'
+    if (diff < 60)  return diff + 's ago'
+    if (diff < 3600) return Math.floor(diff/60) + 'm ago'
+    return Math.floor(diff/3600) + 'h ago'
+  }
+
+  function generateForensicDisplay(userId) {
+    if (!userId) return '------'
+    let hash = 0
+    for (let i = 0; i < userId.length; i++) hash = (hash * 31 + userId.charCodeAt(i)) & 0xffffff
+    return String(hash).padStart(6, '0').substring(0, 6)
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast')
+    t.textContent = msg
+    t.className = 'show ' + type
+    setTimeout(() => { t.className = '' }, 3500)
+  }
+
+  // ── Expose for onclick ──
+  window.adminLogin   = adminLogin
+  window.adminLogout  = adminLogout
+  window.kickSession  = kickSession
+  window.confirmBan   = confirmBan
+  window.closeConfirm = closeConfirm
+  window.executeBan   = executeBan
+  window.unban        = unban
+  window.filterSessions = filterSessions
+  window.loadDashboard  = loadDashboard
+  window.checkRateLimit = checkRateLimit
+
+  // Boot
+  checkAdminSession()
+</script>
 </body>
 </html>
