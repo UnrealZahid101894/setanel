@@ -28,6 +28,7 @@ let _db           = null;
 let _config       = {};
 let _deviceId     = null;
 let _forensicId   = null;
+let _forensicRaw  = null;
 let _heartbeat    = null;
 let _watermarkInt = null;
 let _hlsInstance  = null;
@@ -74,9 +75,24 @@ function getDeviceId() {
   return id;
 }
 
-// ─── Forensic ID ──────────────────────────────────────────────────────────
-function generateForensicId() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+// ─── Forensic ID (Encrypted) ──────────────────────────────────────────────
+// Creates a decodable 8-char hex ID tied to userId + timestamp
+// To decode: the raw value is stored in Supabase alongside user_id
+function generateForensicId(userId) {
+  const timestamp = Date.now();
+  const raw       = String(Math.floor(100000 + Math.random() * 900000));
+
+  // Create encoded version for display
+  let hash = 5381;
+  const str = (userId || '') + raw;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) + hash) ^ str.charCodeAt(i);
+    hash = hash & 0x7fffffff;
+  }
+  return {
+    display: hash.toString(16).toUpperCase().padStart(8, '0').substring(0, 8),
+    raw:     raw
+  };
 }
 
 // ─── CSS Injection ────────────────────────────────────────────────────────
@@ -108,6 +124,18 @@ function injectStyles() {
       transition: all 4s ease-in-out;
       z-index: 10;
       white-space: nowrap;
+    }
+    ._stl-watermark-invisible {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.03);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: 2px;
+      z-index: 10;
+      white-space: nowrap;
+      transform: rotate(-15deg);
     }
     ._stl-shield {
       position: absolute;
@@ -193,8 +221,15 @@ function buildPlayer(container) {
   shield.className = '_stl-shield';
   shield.textContent = '🛡 SETANEL';
 
+  // Invisible watermark — imperceptible to students
+  const invisibleWm = document.createElement('div');
+  invisibleWm.className = '_stl-watermark-invisible';
+  invisibleWm.id = '_stl_wm_invisible';
+  invisibleWm.textContent = _forensicId;
+
   wrap.appendChild(video);
   wrap.appendChild(watermark);
+  wrap.appendChild(invisibleWm);
   wrap.appendChild(shield);
   container.innerHTML = '';
   container.appendChild(wrap);
@@ -246,6 +281,26 @@ function startWatermark() {
 
 // ─── Session Management ────────────────────────────────────────────────────
 async function createSession() {
+  // Rate limit check — block if >10 session creates in 1 hour
+  const windowStart = new Date(Date.now() - 3600000).toISOString();
+  const { data: attempts } = await _db
+    .from('login_attempts')
+    .select('id')
+    .eq('user_id', _config.userId)
+    .gte('attempted_at', windowStart);
+
+  if (attempts && attempts.length > 10) {
+    console.warn('[Setanel] Rate limit exceeded for user:', _config.userId);
+    revoke('rate-limited');
+    return;
+  }
+
+  // Log this attempt
+  await _db.from('login_attempts').insert({
+    user_id:      _config.userId,
+    attempted_at: new Date().toISOString()
+  });
+
   // Clean up any stale session for this device
   await _db.from('active_sessions')
     .delete()
@@ -258,7 +313,7 @@ async function createSession() {
     last_seen:   new Date().toISOString(),
     platform:    'web',
     email:       _config.userEmail || '',
-    forensic_id: _forensicId
+    forensic_id: _forensicRaw || _forensicId
   });
 
   if (error) console.error('[Setanel] Session create error:', error.message);
@@ -275,7 +330,7 @@ function startHeartbeat() {
       .update({
         last_seen:   new Date().toISOString(),
         email:       _config.userEmail || '',
-        forensic_id: _forensicId
+        forensic_id: _forensicRaw || _forensicId
       })
       .eq('user_id',   _config.userId)
       .eq('device_id', _deviceId);
@@ -304,6 +359,14 @@ function startHeartbeat() {
 
     const limit = _config.deviceLimit || 1;
     if (sessions && sessions.length > limit) {
+      // Log piracy event
+      await _db.from('piracy_events').insert({
+        event_type: 'kill_switch',
+        user_id:    _config.userId,
+        email:      _config.userEmail || '',
+        detail:     `${sessions.length} devices detected (limit: ${limit})`,
+        created_at: new Date().toISOString()
+      });
       revoke('multi-device');
     }
 
@@ -323,6 +386,11 @@ function revoke(reason) {
   if (video) { video.pause(); video.src = ''; }
 
   const MESSAGES = {
+    'rate-limited': {
+      icon:  '🛡',
+      title: 'ACCESS RESTRICTED',
+      msg:   'Too many login attempts detected from this account.\nAccess has been temporarily restricted.\nPlease contact support if this is a mistake.'
+    },
     'multi-device': {
       icon:  '🛡',
       title: 'SESSION REVOKED',
@@ -437,7 +505,9 @@ const Setanel = {
     validateConfig(config);
     _config     = config;
     _deviceId   = getDeviceId();
-    _forensicId = generateForensicId();
+    const fid   = generateForensicId(config.userId);
+    _forensicId = fid.display;
+    _forensicRaw = fid.raw;
     _revoked    = false;
 
     injectStyles();
