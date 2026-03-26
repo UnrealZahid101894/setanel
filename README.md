@@ -2,7 +2,7 @@
 
 Protects EdTech course videos from account sharing, screen recording, and piracy. Drop-in SDK — no changes to your existing login system or design required.
 
-**Live:** https://setanel.netlify.app
+**Live:** https://setanel.vercel.app/
 
 ---
 
@@ -13,7 +13,7 @@ npm install setanel-sdk
 ```
 or CDN:
 ```html
-<script src="https://setanel.netlify.app/setanel-sdk.js"></script>
+<script src="https://setanel.vercel.app//setanel-sdk.js"></script>
 ```
 
 ---
@@ -23,7 +23,7 @@ or CDN:
 ```html
 <div id="secure-player"></div>
 
-<script src="https://setanel.netlify.app/setanel-sdk.js"></script>
+<script src="https://setanel.vercel.app/setanel-sdk.js"></script>
 <script>
   Setanel.init({
     supabaseUrl:  'https://your-project.supabase.co',
@@ -97,7 +97,7 @@ Create an admin user in Supabase Auth → use those credentials to log into the 
 
 ## Stack
 
-Vanilla JS · Supabase · HLS.js · Netlify
+Vanilla JS · Supabase · HLS.js · Vercel
 
 ---
 
